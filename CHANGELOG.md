@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.7.1
+
+- Fixed popup light/dark theme switching for Tailwind CSS v4 by routing color utilities through runtime CSS variables.
+- Fixed class-based `dark:` variants so the popup responds to the extension theme toggle.
+
 ## 1.7.0
 
 - Rebuilt Sync2Access as a TypeScript + React + Vite Chrome MV3 extension.

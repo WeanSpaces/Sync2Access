@@ -6,11 +6,11 @@
   <a href="./README.md">
     <img alt="Read Vietnamese README" src="https://img.shields.io/badge/README-Ti%E1%BA%BFng%20Vi%E1%BB%87t-dc2626?style=for-the-badge" />
   </a>
-  <a href="https://github.com/WeanSpaces/Sync2Access/releases/download/v1.7.0/sync2access-extension-v1.7.0.zip">
+  <a href="https://github.com/WeanSpaces/Sync2Access/releases/download/v1.7.1/sync2access-extension-v1.7.1.zip">
     <img alt="Download extension ZIP" src="https://img.shields.io/badge/Download%20Extension-ZIP-16a34a?style=for-the-badge&logo=googlechrome&logoColor=white" />
   </a>
-  <a href="https://github.com/WeanSpaces/Sync2Access/releases/tag/v1.7.0">
-    <img alt="Latest release" src="https://img.shields.io/badge/Release-v1.7.0-111827?style=for-the-badge" />
+  <a href="https://github.com/WeanSpaces/Sync2Access/releases/tag/v1.7.1">
+    <img alt="Latest release" src="https://img.shields.io/badge/Release-v1.7.1-111827?style=for-the-badge" />
   </a>
 </p>
 
@@ -32,7 +32,7 @@ The main source lives in `sync2access`.
 
 ## Install From Release ZIP
 
-1. Download `sync2access-extension-v1.7.0.zip` from the button above or from [Release v1.7.0](https://github.com/WeanSpaces/Sync2Access/releases/tag/v1.7.0).
+1. Download `sync2access-extension-v1.7.1.zip` from the button above or from [Release v1.7.1](https://github.com/WeanSpaces/Sync2Access/releases/tag/v1.7.1).
 2. Extract the ZIP to a stable folder.
 3. Open `chrome://extensions`.
 4. Enable **Developer mode**.

@@ -1,38 +1,38 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /*
- * Theme tokens matching EXACTLY the original extension's popup-DI-wD7Yw.css
- * Key: Original uses bare CSS vars (--background, --foreground)
- * Tailwind v4 @theme maps --color-* to bare var names in utilities
+ * Tailwind v4 utilities read --color-* tokens. Keep those tokens pointing at
+ * runtime CSS variables so toggling .light/.dark can update the popup colors.
  */
 
 @theme {
   --radius: 0.625rem;
 
-  --color-background: oklch(100% 0 0);
-  --color-foreground: oklch(14.5% 0 0);
-  --color-card: oklch(100% 0 0);
-  --color-card-foreground: oklch(14.5% 0 0);
-  --color-popover: oklch(100% 0 0);
-  --color-popover-foreground: oklch(14.5% 0 0);
-  --color-primary: oklch(20.5% 0 0);
-  --color-primary-foreground: oklch(98.5% 0 0);
-  --color-secondary: oklch(97% 0 0);
-  --color-secondary-foreground: oklch(20.5% 0 0);
-  --color-muted: oklch(97% 0 0);
-  --color-muted-foreground: oklch(55.6% 0 0);
-  --color-accent: oklch(97% 0 0);
-  --color-accent-foreground: oklch(20.5% 0 0);
-  --color-destructive: oklch(57.7% .245 27.325);
-  --color-success: oklch(52.7% .154 150.069);
-  --color-border: oklch(92.2% 0 0);
-  --color-input: oklch(92.2% 0 0);
-  --color-ring: oklch(70.8% 0 0);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-success: var(--success);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
 }
 
 /*
- * Also define bare CSS vars for components that use var(--background) etc directly
- * This ensures shadcn/ui component classes work correctly
+ * Bare CSS vars hold the actual palette values for the active theme.
  */
 :root {
   --radius: 0.625rem;

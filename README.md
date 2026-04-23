@@ -6,11 +6,11 @@
   <a href="./README.en.md">
     <img alt="Đọc README tiếng Anh" src="https://img.shields.io/badge/README-Ti%E1%BA%BFng%20Anh-2563eb?style=for-the-badge" />
   </a>
-  <a href="https://github.com/WeanSpaces/Sync2Access/releases/download/v1.7.0/sync2access-extension-v1.7.0.zip">
+  <a href="https://github.com/WeanSpaces/Sync2Access/releases/download/v1.7.1/sync2access-extension-v1.7.1.zip">
     <img alt="Tải tệp ZIP extension" src="https://img.shields.io/badge/T%E1%BA%A3i%20t%E1%BB%87p-ZIP-16a34a?style=for-the-badge&logo=googlechrome&logoColor=white" />
   </a>
-  <a href="https://github.com/WeanSpaces/Sync2Access/releases/tag/v1.7.0">
-    <img alt="Bản phát hành mới nhất" src="https://img.shields.io/badge/B%E1%BA%A3n-v1.7.0-111827?style=for-the-badge" />
+  <a href="https://github.com/WeanSpaces/Sync2Access/releases/tag/v1.7.1">
+    <img alt="Bản phát hành mới nhất" src="https://img.shields.io/badge/B%E1%BA%A3n-v1.7.1-111827?style=for-the-badge" />
   </a>
 </p>
 
@@ -35,8 +35,8 @@ Dự án được xây dựng bằng TypeScript, React, Vite và Chrome Extensio
 
 ### Cách 1: Tải bản ZIP đã build sẵn
 
-1. Tải file ZIP tại nút **Tải Extension ZIP** ở đầu README hoặc tại [Release v1.7.0](https://github.com/WeanSpaces/Sync2Access/releases/tag/v1.7.0).
-2. Giải nén `sync2access-extension-v1.7.0.zip` vào một thư mục cố định trên máy.
+1. Tải file ZIP tại nút **Tải Extension ZIP** ở đầu README hoặc tại [Release v1.7.1](https://github.com/WeanSpaces/Sync2Access/releases/tag/v1.7.1).
+2. Giải nén `sync2access-extension-v1.7.1.zip` vào một thư mục cố định trên máy.
 3. Mở Chrome, Edge hoặc Brave và truy cập `chrome://extensions`.
 4. Bật **Developer mode** (Chế độ dành cho nhà phát triển).
 5. Chọn **Load unpacked** (Tải tiện ích đã giải nén).
