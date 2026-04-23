@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Sun, Moon, Globe, ChevronDown, Check, Copy, Trash2 } from 'lucide-react';
+import { Sun, Moon, Globe, ChevronDown, Check, Copy } from 'lucide-react';
 import { useTheme } from './lib/theme-provider';
 import { useCurrentTab, useCookies } from './hooks';
 import { Button } from './ui/button';
@@ -157,8 +157,7 @@ export default function App() {
   const [lsSize, setLsSize] = useState(0);
   const [shareError, setShareError] = useState<string | null>(null);
   const [shareId, setShareId] = useState<string | null>(null);
-  const [clearing, setClearing] = useState(false);
-  const [clearMsg, setClearMsg] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => { if (tab?.url && !redirectUrl) setRedirectUrl(tab.url); }, [tab?.url]);
 
@@ -195,33 +194,6 @@ export default function App() {
     } catch (e: any) { setShareError(e.message); }
   }
 
-  async function clearCookies() {
-    if (!tab?.domain || cookies.length === 0) return;
-    setClearMsg(null);
-    setClearing(true);
-    try {
-      // Auto-backup: copy cookies to clipboard in J2Team format before clearing
-      const cookieData = cookies.map((c: any) => ({
-        domain: c.domain, expirationDate: c.expirationDate,
-        hostOnly: c.hostOnly ?? (c.domain ? !c.domain.startsWith('.') : true),
-        httpOnly: c.httpOnly ?? false, name: c.name, path: c.path || '/',
-        sameSite: c.sameSite || 'unspecified', secure: c.secure ?? false,
-        session: c.session ?? !c.expirationDate, storeId: c.storeId || '0', value: c.value
-      }));
-      await navigator.clipboard.writeText(JSON.stringify(cookieData, null, 2));
-
-      // Now clear
-      const res = await chrome.runtime.sendMessage({ action: 'clearCookiesForDomain', domain: tab.domain });
-      if (res?.success) {
-        setClearMsg(t('clearCookies.success', { count: res.removed }));
-        // Reload tab to reflect cleared state
-        if (tab.tabId) chrome.tabs.reload(tab.tabId);
-      } else {
-        setClearMsg(res?.error || 'Failed to clear cookies');
-      }
-    } catch (e: any) { setClearMsg(e.message); }
-    setClearing(false);
-  }
 
   /* ── Header ── */
   const Header = () => (
@@ -265,8 +237,8 @@ export default function App() {
           <p className="text-xs text-muted-foreground">{t('shareCreation.message', { count: cookies.length, domain: tab.domain })}</p>
           <div className="flex gap-2">
             <Input type="text" value={shareUrl} readOnly className="font-mono text-xs" />
-            <Button variant="secondary" size="sm" className="shrink-0" onClick={async () => { await navigator.clipboard.writeText(shareUrl); }}>
-              <Copy className="h-4 w-4" />{t('copyUrlButton.label')}
+            <Button variant="secondary" size="sm" className="shrink-0 text-xs gap-1" onClick={async () => { await navigator.clipboard.writeText(shareUrl); setCopied(true); setTimeout(() => setCopied(false), 2000); }}>
+              {copied ? <><Check className="size-3" />{t('copyUrlButton.copied')}</> : <><Copy className="size-3" />{t('copyUrlButton.label')}</>}
             </Button>
           </div>
           <Button variant="link" size="sm" className="h-auto p-0 text-xs" onClick={() => { setShareId(null); setPassword(''); setExpiresIn(168); setMaxAccess(null); setRedirectUrl(tab.url); }}>
@@ -332,11 +304,7 @@ export default function App() {
                 <Button onClick={createShare} disabled={cookies.length === 0} className="w-full h-8 text-xs">
                   {t('shareButton.label')}
                 </Button>
-                <Button variant="outline" onClick={clearCookies} disabled={cookies.length === 0 || clearing} className="w-full h-8 text-xs gap-1.5 text-destructive hover:text-destructive">
-                  <Trash2 className="size-3" />
-                  {clearing ? t('common.loading') : t('clearCookies.label')}
-                </Button>
-                {clearMsg && <p className="text-[10px] text-muted-foreground text-center">{clearMsg}</p>}
+
               </div>
             )}
 

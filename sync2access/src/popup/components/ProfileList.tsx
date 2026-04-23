@@ -108,6 +108,8 @@ export function ProfileList({ domain }: Props) {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [view, setView] = useState<'list' | 'create' | 'import' | 'export'>('list');
+  const [clearing, setClearing] = useState(false);
+  const [clearMsg, setClearMsg] = useState<string | null>(null);
 
   useEffect(() => { load(); }, [domain]);
 
@@ -135,6 +137,38 @@ export function ProfileList({ domain }: Props) {
   }
 
   if (loading) return <p className="text-xs text-muted-foreground text-center py-4">{t('common.loading')}</p>;
+
+  async function clearCookies() {
+    setClearMsg(null);
+    setClearing(true);
+    try {
+      // Auto-backup: copy current cookies to clipboard in J2Team format
+      const captured = await chrome.runtime.sendMessage({ action: 'getCookiesForDomain', domain });
+      const cookies = captured?.cookies || [];
+      if (cookies.length > 0) {
+        const cookieData = cookies.map((c: any) => ({
+          domain: c.domain, expirationDate: c.expirationDate,
+          hostOnly: c.hostOnly ?? (c.domain ? !c.domain.startsWith('.') : true),
+          httpOnly: c.httpOnly ?? false, name: c.name, path: c.path || '/',
+          sameSite: c.sameSite || 'unspecified', secure: c.secure ?? false,
+          session: c.session ?? !c.expirationDate, storeId: c.storeId || '0', value: c.value
+        }));
+        await navigator.clipboard.writeText(JSON.stringify(cookieData, null, 2));
+      }
+      // Clear cookies
+      const res = await chrome.runtime.sendMessage({ action: 'clearCookiesForDomain', domain });
+      if (res?.success) {
+        setClearMsg(t('clearCookies.success', { count: res.removed }));
+        // Reload active tab to reflect cleared state
+        const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+        if (tab?.id) chrome.tabs.reload(tab.id);
+        setTimeout(() => setClearMsg(null), 3000);
+      } else {
+        setClearMsg(res?.error || 'Failed');
+      }
+    } catch (e: any) { setClearMsg(e.message); }
+    setClearing(false);
+  }
 
   if (view === 'create') return <CreateView domain={domain} onBack={() => setView('list')} onSuccess={() => { load(); setView('list'); }} />;
   if (view === 'import') return <ImportView domain={domain} onBack={() => setView('list')} onSuccess={() => { load(); setView('list'); }} />;
@@ -166,7 +200,12 @@ export function ProfileList({ domain }: Props) {
         <Button variant="ghost" size="xs" className="flex-1 gap-1" onClick={() => setView('export')}>
           <FileDown className="size-3" /><span className="text-[10px]">{t('profiles.export')}</span>
         </Button>
+        <div className="w-px h-5 bg-border" />
+        <Button variant="ghost" size="xs" className="flex-1 gap-1 text-destructive hover:text-destructive" onClick={clearCookies} disabled={clearing}>
+          <Trash2 className="size-3" /><span className="text-[10px]">{clearing ? '...' : t('clearCookies.label')}</span>
+        </Button>
       </div>
+      {clearMsg && <p className="text-[10px] text-muted-foreground text-center mt-1">{clearMsg}</p>}
     </div>
   );
 }
@@ -347,7 +386,7 @@ function ImportView({ domain, onBack, onSuccess }: { domain: string; onBack: () 
     try {
       const name = profileName.trim() || `Import ${new Date().toLocaleDateString()}`;
       const res = await chrome.runtime.sendMessage({ action: 'createProfile', name, domain, cookies: preview.cookies });
-      if (res?.success) { setSuccess(`âœ“ Imported ${preview.cookies.length} cookies as "${name}"`); setTimeout(onSuccess, 1200); }
+      if (res?.success) { setSuccess(`Imported ${preview.cookies.length} cookies as "${name}"`); setTimeout(onSuccess, 1200); }
       else setError(res?.error || 'Failed');
     } catch (e: any) { setError(e.message); }
     setBusy(false);
@@ -364,7 +403,7 @@ function ImportView({ domain, onBack, onSuccess }: { domain: string; onBack: () 
       if (result.cookies.length === 0) throw new Error('No cookies found after decryption');
       const name = profileName.trim() || 'Decrypted Import';
       const res = await chrome.runtime.sendMessage({ action: 'createProfile', name, domain, cookies: result.cookies });
-      if (res?.success) { setSuccess(`âœ“ Imported ${result.cookies.length} cookies`); setTimeout(onSuccess, 1200); }
+      if (res?.success) { setSuccess(`Imported ${result.cookies.length} cookies`); setTimeout(onSuccess, 1200); }
       else setError(res?.error || 'Failed');
     } catch (e: any) { setError(e.message || 'Wrong password or corrupted data'); }
     setBusy(false);
@@ -387,7 +426,7 @@ function ImportView({ domain, onBack, onSuccess }: { domain: string; onBack: () 
       {encrypted ? (
         <div className="space-y-1.5">
           <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-md bg-secondary/50 border border-border">
-            <span className="text-[10px]">ðŸ”’</span>
+            <span className="text-[10px]">🔒</span>
             <span className="text-[10px] text-muted-foreground flex-1">Encrypted J2TEAM file detected</span>
           </div>
           <Input value={profileName} onChange={e => setProfileName(e.target.value)} placeholder="Profile name" className="text-xs" />
@@ -405,7 +444,7 @@ function ImportView({ domain, onBack, onSuccess }: { domain: string; onBack: () 
           <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-md bg-secondary/50 border border-border">
             <Check className="size-3 text-success shrink-0" />
             <span className="text-[10px] flex-1">
-              Detected <strong>{preview.format.toUpperCase()}</strong> â€” {preview.cookies.length} cookies
+              Detected <strong>{preview.format.toUpperCase()}</strong> - {preview.cookies.length} cookies
             </span>
           </div>
           <Input value={profileName} onChange={e => setProfileName(e.target.value)} placeholder="Profile name (optional)" className="text-xs" autoFocus />
@@ -424,7 +463,7 @@ function ImportView({ domain, onBack, onSuccess }: { domain: string; onBack: () 
         <div className="space-y-1">
           <Input ref={fileRef} type="file" accept=".json,.txt,.cookies" onChange={handleFile} disabled={busy}
             className="text-xs file:mr-2 file:text-[10px] file:rounded-md file:border-0 file:bg-primary file:text-primary-foreground file:px-2 file:py-1 file:cursor-pointer" />
-          <p className="text-[10px] text-muted-foreground">JSON Â· J2TEAM Â· Header String Â· Netscape Â· Encrypted (.txt)</p>
+          <p className="text-[10px] text-muted-foreground">JSON | J2TEAM | Header String | Netscape | Encrypted (.txt)</p>
         </div>
       ) : (
         /* Text paste area */
@@ -461,7 +500,7 @@ function ImportView({ domain, onBack, onSuccess }: { domain: string; onBack: () 
   );
 }
 
-/* â”€â”€ Export View (multi-format: J2TEAM, Encrypted, Header String, Netscape, Backup, Copy) â”€â”€ */
+/* --- Export View (multi-format: J2TEAM, Encrypted, Header String, Netscape, Backup, Copy) --- */
 function ExportView({ domain, onBack }: { domain: string; onBack: () => void }) {
   const { t } = useTranslation();
   const [busy, setBusy] = useState(false);
@@ -515,7 +554,7 @@ function ExportView({ domain, onBack }: { domain: string; onBack: () => void }) 
         const res = await chrome.runtime.sendMessage({ action: 'exportProfiles', domains: [domain] });
         if (!res?.success) throw new Error(res?.error || 'Export failed');
         const text = JSON.stringify(res.data, null, 2);
-        if (action === 'download') { download(text, `profiles-${domain}-${Date.now()}.json`); setSuccess(`âœ“ Profiles backup downloaded`); }
+        if (action === 'download') { download(text, `profiles-${domain}-${Date.now()}.json`); setSuccess(`Profiles backup downloaded`); }
         else if (action === 'copy') { await navigator.clipboard.writeText(text); showCopied('backup'); }
         else { setPreviewText(text); setPreviewFormat('Profiles Backup'); }
         setBusy(false); return;
@@ -534,14 +573,14 @@ function ExportView({ domain, onBack }: { domain: string; onBack: () => void }) 
         case 'json-array': output = JSON.stringify(cookies, null, 2); filename = `${domain}_cookies_raw.json`; break;
       }
 
-      if (action === 'download') { download(output, filename); setSuccess(`âœ“ Exported ${cookies.length} cookies (${format})`); }
+      if (action === 'download') { download(output, filename); setSuccess(`Copied: Exported ${cookies.length} cookies (${format})`); }
       else if (action === 'copy') { await navigator.clipboard.writeText(output); showCopied(format); }
       else { setPreviewText(output); setPreviewFormat(format.toUpperCase()); }
     } catch (e: any) { setError(e.message); }
     setBusy(false);
   }
 
-  function showCopied(fmt: string) { setCopied(fmt); setSuccess(`âœ“ Copied to clipboard`); setTimeout(() => setCopied(null), 2000); }
+  function showCopied(fmt: string) { setCopied(fmt); setSuccess(`Copied to clipboard`); setTimeout(() => setCopied(null), 2000); }
 
   const formats: { key: string; label: string; format: 'j2team' | 'encrypted' | 'headerstring' | 'netscape' | 'json-array' | 'backup'; needsPwd?: boolean }[] = [
     { key: 'j2team', label: 'J2TEAM Cookies', format: 'j2team' },
@@ -588,7 +627,7 @@ function ExportView({ domain, onBack }: { domain: string; onBack: () => void }) 
           {/* Encrypted export row with password */}
           <div className="rounded-md border border-border/50 overflow-hidden">
             <div className="flex items-center gap-1 px-2.5 py-1.5">
-              <span className="text-[10px]">ðŸ”’</span>
+              <span className="text-[10px]">🔒</span>
               <span className="text-[10px] font-medium flex-1">Encrypted J2TEAM</span>
               <Button variant="ghost" size="xs" className="text-[10px] h-5 px-1.5" onClick={() => doExport('encrypted', 'download')} disabled={busy || !pwd}>
                 <FileDown className="size-3" />

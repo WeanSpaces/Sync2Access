@@ -3,8 +3,10 @@
 // Injected at document_start on all pages
 
 (function () {
-  if ((window as any).__ACCESS_URL_CONTENT_SCRIPT_LOADED__) return;
-  (window as any).__ACCESS_URL_CONTENT_SCRIPT_LOADED__ = true;
+  if ((window as any).__SYNC2ACCESS_CONTENT_SCRIPT_LOADED__) return;
+  (window as any).__SYNC2ACCESS_CONTENT_SCRIPT_LOADED__ = true;
+
+  const BRAND = { installed: true, extensionName: 'Sync2Access', version: chrome.runtime.getManifest().version };
 
   window.addEventListener('message', async (event: MessageEvent) => {
     if (event.source !== window || event.origin !== window.location.origin) return;
@@ -12,7 +14,7 @@
     if (!type || !type.startsWith('ACCESS_URL_')) return;
 
     if (type === 'ACCESS_URL_PING') {
-      window.postMessage({ type: 'ACCESS_URL_PONG', payload: { installed: true }, nonce }, '*');
+      window.postMessage({ type: 'ACCESS_URL_PONG', payload: BRAND, nonce }, '*');
     }
 
     const handlers: Record<string, { action: string; responseType: string }> = {
@@ -35,5 +37,5 @@
     }
   });
 
-  window.postMessage({ type: 'ACCESS_URL_READY', payload: { installed: true } }, '*');
+  window.postMessage({ type: 'ACCESS_URL_READY', payload: BRAND }, '*');
 })();
