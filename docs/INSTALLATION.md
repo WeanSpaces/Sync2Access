@@ -9,25 +9,25 @@
 ## Build From Source
 
 ```bash
-cd access-url-rebuilt
+cd sync2access
 npm ci
 npm run build
 ```
 
-The build output is created in `access-url-rebuilt/dist`.
+The build output is created in `sync2access/dist`.
 
 ## Load In Chrome
 
 1. Open `chrome://extensions`.
 2. Enable **Developer mode**.
 3. Click **Load unpacked**.
-4. Select the `access-url-rebuilt/dist` folder.
+4. Select the `sync2access/dist` folder.
 5. Pin Sync2Access from the Chrome extensions menu.
 
 ## Development Mode
 
 ```bash
-cd access-url-rebuilt
+cd sync2access
 npm run dev
 ```
 
@@ -36,7 +36,7 @@ This starts Vite in watch-build mode. After a rebuild, click **Reload** on the e
 ## Package For Manual Distribution
 
 ```bash
-cd access-url-rebuilt
+cd sync2access
 npm run build
 ```
 

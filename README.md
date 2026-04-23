@@ -36,7 +36,7 @@ Sync2Access is a professional Chrome MV3 extension for browser session workflows
 
 ```text
 .
-├── access-url-rebuilt/              # Main extension source
+├── sync2access/                     # Main extension source
 │   ├── public/                      # Manifest, icons, DNR rules, Chrome locales
 │   ├── src/
 │   │   ├── background/              # Service worker, API, crypto, DNR, profile manager
@@ -60,7 +60,7 @@ Generated dependencies, unpacked CRX references, local GitNexus state, and packa
 ## Quick Start
 
 ```bash
-cd access-url-rebuilt
+cd sync2access
 npm ci
 npm run build
 ```
@@ -70,7 +70,7 @@ Then load the built extension in Chrome:
 1. Open `chrome://extensions`.
 2. Enable Developer mode.
 3. Choose **Load unpacked**.
-4. Select `access-url-rebuilt/dist`.
+4. Select `sync2access/dist`.
 
 More details: [docs/INSTALLATION.md](docs/INSTALLATION.md)
 
@@ -124,7 +124,7 @@ Sync2Access requests broad browser permissions because cookie/profile workflows 
 ## Development
 
 ```bash
-cd access-url-rebuilt
+cd sync2access
 npm ci
 npm run dev
 ```
@@ -134,15 +134,15 @@ npm run dev
 ## Release Build
 
 ```bash
-cd access-url-rebuilt
+cd sync2access
 npm run build
 ```
 
-The production output is written to `access-url-rebuilt/dist`. Zip that folder for manual distribution or attach it as a GitHub Release artifact.
+The production output is written to `sync2access/dist`. Zip that folder for manual distribution or attach it as a GitHub Release artifact.
 
 ## Backend Configuration
 
-The extension currently targets `https://friendshouse.io.vn/api` for share creation and `https://friendshouse.io.vn` for generated share URLs. These constants live in `access-url-rebuilt/src/shared/constants.ts` and `access-url-rebuilt/src/popup/App.tsx`.
+The extension currently targets `https://friendshouse.io.vn/api` for share creation and `https://friendshouse.io.vn` for generated share URLs. These constants live in `sync2access/src/shared/constants.ts` and `sync2access/src/popup/App.tsx`.
 
 ## License
 

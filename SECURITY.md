@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-Security fixes should target the current source version in `access-url-rebuilt`.
+Security fixes should target the current source version in `sync2access`.
 
 ## Reporting Issues
 
