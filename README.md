@@ -1,127 +1,153 @@
 # Sync2Access Extension
 
-> Chrome Manifest V3 extension for secure cookie profile management, session sharing, logout protection, and multilingual browser workflows.
+> Tiện ích Chrome Manifest V3 giúp quản lý hồ sơ cookie, chia sẻ phiên truy cập được mã hóa, chống đăng xuất ngoài ý muốn và hỗ trợ giao diện đa ngôn ngữ.
 
-## Tong Quan
+<p align="center">
+  <a href="./README.en.md">
+    <img alt="Đọc README tiếng Anh" src="https://img.shields.io/badge/README-Ti%E1%BA%BFng%20Anh-2563eb?style=for-the-badge" />
+  </a>
+  <a href="https://github.com/WeanSpaces/Sync2Access/releases/download/v1.7.0/sync2access-extension-v1.7.0.zip">
+    <img alt="Tải tệp ZIP extension" src="https://img.shields.io/badge/T%E1%BA%A3i%20t%E1%BB%87p-ZIP-16a34a?style=for-the-badge&logo=googlechrome&logoColor=white" />
+  </a>
+  <a href="https://github.com/WeanSpaces/Sync2Access/releases/tag/v1.7.0">
+    <img alt="Bản phát hành mới nhất" src="https://img.shields.io/badge/B%E1%BA%A3n-v1.7.0-111827?style=for-the-badge" />
+  </a>
+</p>
 
-Sync2Access la mot Chrome extension giup quan ly cookie theo tung website, luu nhieu profile dang nhap, chia se phien truy cap bang lien ket co mat khau, va ngan thao tac dang xuat ngoai y muon. Du an duoc viet lai bang TypeScript + React + Vite, su dung Chrome Extension Manifest V3 va ho tro giao dien da ngon ngu.
+## Tổng Quan
 
-### Diem Noi Bat
+Sync2Access là extension dành cho trình duyệt Chromium, tập trung vào các luồng làm việc với phiên đăng nhập trên website. Extension cho phép lưu cookie hiện tại thành nhiều hồ sơ, chuyển đổi nhanh giữa các tài khoản theo từng domain, chia sẻ phiên truy cập bằng liên kết được mã hóa và hạn chế việc bị đăng xuất ngoài ý muốn.
 
-- Cookie profile manager: luu, doi, xoa, import/export profile theo tung domain.
-- Secure sharing: ma hoa cookie bang AES-GCM, PBKDF2, HMAC va xac thuc chu ky RSA.
-- Logout protection: chan URL dang xuat bang Declarative Net Request, co confirmation page va bypass token mot lan.
-- LocalStorage support: co the kem localStorage trong luong gioi han cho flow chia se.
-- Multilingual UI: English, Tieng Viet, Korean, Russian va Simplified Chinese.
-- Modern UI: React, Radix UI, Tailwind CSS v4, dark/light/system theme.
-- MV3 ready: service worker, content script bridge, web accessible resources va rule resources.
+Dự án được xây dựng bằng TypeScript, React, Vite và Chrome Extension Manifest V3. Mã nguồn chính nằm trong thư mục `sync2access`.
 
-## English Summary
+## Tính Năng Chính
 
-Sync2Access is a professional Chrome MV3 extension for browser session workflows. It lets users save cookie snapshots as profiles, switch accounts per domain, share encrypted session bundles through a backend service, and reduce accidental logouts with dynamic DNR-based protection.
+- **Quản lý hồ sơ cookie theo domain:** lưu, đổi tên, chuyển đổi, xóa, import và export hồ sơ.
+- **Chia sẻ phiên truy cập an toàn:** mã hóa cookie bằng AES-GCM, dẫn xuất khóa bằng PBKDF2, xác thực payload bằng HMAC và hỗ trợ xác minh chữ ký RSA.
+- **Chống đăng xuất:** chặn các URL đăng xuất phổ biến bằng Declarative Net Request và hiển thị trang xác nhận trước khi cho phép đăng xuất.
+- **Bypass có kiểm soát:** dùng token một lần, thời gian sống ngắn, để cho phép đăng xuất khi người dùng xác nhận.
+- **Hỗ trợ localStorage:** có thể kèm dữ liệu localStorage trong luồng chia sẻ khi người dùng bật tùy chọn này.
+- **Giao diện đa ngôn ngữ:** English, Tiếng Việt, Korean, Russian và Simplified Chinese.
+- **Chế độ giao diện:** light, dark và system theme.
+- **Build hiện đại:** React 18, Radix UI, Tailwind CSS v4, Vite 5 và TypeScript.
 
-## Tech Stack
+## Tải Và Cài Đặt Nhanh
 
-| Layer | Technology |
-| --- | --- |
-| Extension platform | Chrome Extension Manifest V3 |
-| UI | React 18, TypeScript, Radix UI, lucide-react |
-| Build | Vite 5, TypeScript |
-| Styling | Tailwind CSS v4 |
-| Browser APIs | `chrome.cookies`, `chrome.storage`, `chrome.tabs`, `chrome.scripting`, `chrome.declarativeNetRequest`, `chrome.webNavigation` |
-| Crypto | Web Crypto API, AES-GCM, PBKDF2, HMAC-SHA256, RSA signature verification |
-| i18n | i18next, react-i18next, Chrome `_locales` |
+### Cách 1: Tải bản ZIP đã build sẵn
 
-## Project Structure
+1. Tải file ZIP tại nút **Tải Extension ZIP** ở đầu README hoặc tại [Release v1.7.0](https://github.com/WeanSpaces/Sync2Access/releases/tag/v1.7.0).
+2. Giải nén `sync2access-extension-v1.7.0.zip` vào một thư mục cố định trên máy.
+3. Mở Chrome, Edge hoặc Brave và truy cập `chrome://extensions`.
+4. Bật **Developer mode** (Chế độ dành cho nhà phát triển).
+5. Chọn **Load unpacked** (Tải tiện ích đã giải nén).
+6. Chọn thư mục vừa giải nén.
+7. Ghim Sync2Access trên thanh extension để sử dụng nhanh.
 
-```text
-.
-├── sync2access/                     # Main extension source
-│   ├── public/                      # Manifest, icons, DNR rules, Chrome locales
-│   ├── src/
-│   │   ├── background/              # Service worker, API, crypto, DNR, profile manager
-│   │   ├── content/                 # Web page <-> extension bridge
-│   │   ├── pages/                   # Logout confirmation experiences
-│   │   ├── popup/                   # React popup UI and translations
-│   │   └── shared/                  # Types, constants, domain helpers
-│   ├── cloudflare-worker/           # Optional API proxy worker
-│   ├── package.json
-│   └── vite.config.ts
-├── docs/                            # Architecture and installation docs
-├── .github/workflows/build.yml      # CI build verification
-├── CHANGELOG.md
-├── CONTRIBUTING.md
-├── PRIVACY.md
-└── SECURITY.md
-```
-
-Generated dependencies, unpacked CRX references, local GitNexus state, and packaged `.crx` artifacts are intentionally excluded from Git. Build artifacts should be created by CI or attached to GitHub Releases.
-
-## Quick Start
+### Cách 2: Build từ source
 
 ```bash
-cd sync2access
+git clone https://github.com/WeanSpaces/Sync2Access.git
+cd Sync2Access/sync2access
 npm ci
 npm run build
 ```
 
-Then load the built extension in Chrome:
+Sau khi build xong:
 
-1. Open `chrome://extensions`.
-2. Enable Developer mode.
-3. Choose **Load unpacked**.
-4. Select `sync2access/dist`.
+1. Mở `chrome://extensions`.
+2. Bật **Developer mode** (Chế độ dành cho nhà phát triển).
+3. Chọn **Load unpacked** (Tải tiện ích đã giải nén).
+4. Chọn thư mục `sync2access/dist`.
 
-More details: [docs/INSTALLATION.md](docs/INSTALLATION.md)
+## Hướng Dẫn Sử Dụng
 
-## Main Workflows
+### 1. Chia Sẻ Phiên Truy Cập
 
-### Share A Session
+1. Mở website đang có phiên đăng nhập cần chia sẻ.
+2. Bấm biểu tượng Sync2Access trên thanh extension.
+3. Ở tab **Chia sẻ**, kiểm tra domain và số lượng cookie được phát hiện.
+4. Nhập mật khẩu nếu muốn tạo chia sẻ riêng tư. Nếu để trống, chia sẻ sẽ dùng cơ chế chia sẻ công khai của tiện ích.
+5. Chọn thời hạn hết hạn, giới hạn lượt truy cập và URL chuyển hướng sau khi import.
+6. Bật tùy chọn kèm localStorage nếu website cần dữ liệu localStorage để khôi phục phiên.
+7. Bấm **Tạo chia sẻ**.
+8. Sao chép liên kết được tạo và gửi cho người nhận.
 
-1. Open a supported website tab.
-2. Open Sync2Access popup.
-3. Choose expiration, access limit, password, redirect URL, and optional localStorage.
-4. Create a share link.
-5. The extension encrypts the cookie bundle before sending share data to the configured backend.
+Lưu ý: cookie được mã hóa trước khi gửi tới backend chia sẻ đã cấu hình trong source.
 
-### Manage Profiles
+### 2. Lưu Và Chuyển Hồ Sơ Cookie
 
-1. Save current cookies as a named profile.
-2. Switch between profiles for the active domain.
-3. Export or import profile backups.
-4. Keep the default profile protected from accidental deletion.
+1. Mở website cần quản lý nhiều tài khoản.
+2. Mở popup Sync2Access.
+3. Vào tab **Hồ sơ**.
+4. Chọn lưu cookie hiện tại thành hồ sơ mới.
+5. Đặt tên hồ sơ, ví dụ `Tài khoản cá nhân`, `Tài khoản công việc`.
+6. Khi cần đổi tài khoản, chọn hồ sơ mong muốn và bấm **Chuyển**.
 
-### Prevent Logouts
+Tiện ích sẽ xóa cookie hiện tại của domain đó và khôi phục cookie từ hồ sơ đã chọn.
 
-1. Enable logout protection globally or for the active domain.
-2. The service worker installs DNR rules for logout-like URL patterns.
-3. Users get a confirmation page before the extension allows logout navigation.
+### 3. Import Và Export Hồ Sơ
 
-## Permissions
+1. Vào tab **Hồ sơ**.
+2. Dùng **Xuất** để tạo file sao lưu hồ sơ.
+3. Dùng **Nhập** để phục hồi hồ sơ từ file đã export.
+4. Kiểm tra domain trước khi import để tránh ghi nhầm cookie sang website khác.
 
-Sync2Access requests broad browser permissions because cookie/profile workflows operate across the active domain and need extension-level interception:
+Tính năng này phù hợp để sao lưu tài khoản, di chuyển cấu hình giữa máy cá nhân hoặc khôi phục sau khi cài lại trình duyệt.
 
-| Permission | Purpose |
+### 4. Chống Đăng Xuất Ngoài Ý Muốn
+
+1. Vào tab **Cài đặt**.
+2. Bật chống đăng xuất toàn cục hoặc bật riêng cho domain hiện tại.
+3. Khi website truy cập URL giống luồng đăng xuất, tiện ích sẽ chuyển tới trang xác nhận.
+4. Chọn ở lại nếu không muốn đăng xuất.
+5. Chọn đăng xuất nếu thật sự muốn tiếp tục. Tiện ích sẽ tạo bypass token một lần để cho phép thao tác.
+
+### 5. Xóa Cookie Hiện Tại
+
+1. Vào tab **Chia sẻ**.
+2. Bấm nút xóa cookie nếu muốn xóa cookie của domain hiện tại.
+3. Tiện ích sẽ cố gắng sao lưu dữ liệu cookie theo định dạng JSON vào clipboard trước khi xóa.
+4. Tab hiện tại có thể được reload để phản ánh trạng thái mới.
+
+## Quyền Trình Duyệt
+
+Sync2Access cần một số quyền rộng vì tiện ích thao tác trực tiếp với cookie, tab hiện tại, localStorage và điều hướng đăng xuất.
+
+| Quyền | Mục Đích |
 | --- | --- |
-| `cookies` | Read, save, clear, and restore cookie profiles |
-| `storage` | Store settings, profiles, pending share data, and preferences |
-| `tabs`, `activeTab` | Detect the current tab/domain and reload after profile changes |
-| `scripting` | Capture/import localStorage and clean temporary URL parameters |
-| `webNavigation` | Clean one-time bypass tokens after navigation |
-| `declarativeNetRequest`, `declarativeNetRequestWithHostAccess` | Intercept logout URLs through MV3 DNR rules |
-| `notifications` | Notify users when logout/profile restoration actions complete |
-| `<all_urls>` | Support session workflows across user-selected websites |
+| `cookies` | Đọc, lưu, xóa và khôi phục cookie theo domain |
+| `storage` | Lưu hồ sơ, cài đặt, dữ liệu chia sẻ tạm thời và tùy chọn giao diện |
+| `tabs`, `activeTab` | Xác định tab/domain hiện tại và reload tab sau khi đổi hồ sơ |
+| `scripting` | Đọc/ghi localStorage và dọn tham số bypass khỏi URL |
+| `webNavigation` | Theo dõi điều hướng để xử lý bypass token |
+| `declarativeNetRequest`, `declarativeNetRequestWithHostAccess` | Chặn URL đăng xuất bằng rule MV3 |
+| `notifications` | Thông báo khi khôi phục hồ sơ hoặc xử lý đăng xuất |
+| `<all_urls>` | Hỗ trợ workflow phiên đăng nhập trên các website người dùng chọn |
 
-## Documentation
+## Cấu Trúc Dự Án
 
-- [Installation](docs/INSTALLATION.md)
-- [Architecture](docs/ARCHITECTURE.md)
-- [Privacy](PRIVACY.md)
-- [Security](SECURITY.md)
-- [Contributing](CONTRIBUTING.md)
-- [Changelog](CHANGELOG.md)
+```text
+.
+├── sync2access/                     # Mã nguồn chính của tiện ích Chrome
+│   ├── public/                      # manifest.json, icons, DNR rules, Chrome locales
+│   ├── src/
+│   │   ├── background/              # service worker, crypto, profile manager, DNR
+│   │   ├── content/                 # cầu nối webpage <-> extension
+│   │   ├── pages/                   # trang xác nhận đăng xuất
+│   │   ├── popup/                   # giao diện React popup
+│   │   └── shared/                  # types, constants, domain utilities
+│   ├── cloudflare-worker/           # worker proxy API tùy chọn
+│   ├── package.json
+│   └── vite.config.ts
+├── docs/                            # Tài liệu cài đặt và kiến trúc
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── PRIVACY.md
+├── SECURITY.md
+└── README.en.md
+```
 
-## Development
+## Lệnh Phát Triển
 
 ```bash
 cd sync2access
@@ -129,21 +155,46 @@ npm ci
 npm run dev
 ```
 
-`npm run dev` runs Vite in watch-build mode. Reload the unpacked extension from `chrome://extensions` after rebuilds.
+`npm run dev` chạy Vite ở chế độ watch build. Sau mỗi lần build, vào `chrome://extensions` và bấm reload extension.
 
-## Release Build
+## Build Bản Phát Hành
 
 ```bash
 cd sync2access
 npm run build
 ```
 
-The production output is written to `sync2access/dist`. Zip that folder for manual distribution or attach it as a GitHub Release artifact.
+Kết quả build nằm tại `sync2access/dist`. Khi phát hành thủ công, zip nội dung trong thư mục `dist` rồi đính kèm vào GitHub Releases.
 
-## Backend Configuration
+## Cấu Hình Backend
 
-The extension currently targets `https://friendshouse.io.vn/api` for share creation and `https://friendshouse.io.vn` for generated share URLs. These constants live in `sync2access/src/shared/constants.ts` and `sync2access/src/popup/App.tsx`.
+Tiện ích hiện trỏ tới:
 
-## License
+- API tạo chia sẻ: `https://friendshouse.io.vn/api`
+- Website tạo link chia sẻ: `https://friendshouse.io.vn`
+
+Các cấu hình này nằm trong:
+
+- `sync2access/src/shared/constants.ts`
+- `sync2access/src/popup/App.tsx`
+
+## Bảo Mật Và Riêng Tư
+
+- Cookie profile được lưu trong Chrome extension storage của người dùng.
+- Cookie trong payload chia sẻ được mã hóa trước khi gửi tới backend.
+- Chia sẻ riêng tư nên dùng mật khẩu mạnh.
+- Không commit `node_modules`, `dist`, `.crx`, private key, token hoặc file môi trường cục bộ.
+- Xem thêm [PRIVACY.md](PRIVACY.md) và [SECURITY.md](SECURITY.md).
+
+## Tài Liệu Liên Quan
+
+- [Hướng dẫn cài đặt](docs/INSTALLATION.md)
+- [Kiến trúc dự án](docs/ARCHITECTURE.md)
+- [Quyền riêng tư](PRIVACY.md)
+- [Bảo mật](SECURITY.md)
+- [Đóng góp](CONTRIBUTING.md)
+- [Changelog](CHANGELOG.md)
+
+## Giấy Phép
 
 Copyright (c) WeanSpaces. All rights reserved unless a separate license is added by the repository owner.
