@@ -1,0 +1,4 @@
+{
+  "appName": { "message": "Sync2Access", "description": "Tên extension" },
+  "appDescription": { "message": "Chia sẻ cookie, quản lý hồ sơ và ngăn đăng xuất ngoài ý muốn. Extension quản lý cookie tối ưu.", "description": "Mô tả extension" }
+}

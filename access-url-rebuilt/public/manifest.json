@@ -1,0 +1,69 @@
+{
+  "manifest_version": 3,
+  "name": "__MSG_appName__",
+  "version": "1.7.0",
+  "description": "__MSG_appDescription__",
+  "default_locale": "en",
+  "permissions": [
+    "cookies",
+    "storage",
+    "tabs",
+    "activeTab",
+    "declarativeNetRequest",
+    "declarativeNetRequestWithHostAccess",
+    "notifications",
+    "webNavigation",
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Sync2Access"
+  },
+  "background": {
+    "service_worker": "service-worker.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "js": ["content-script.js"],
+      "matches": ["<all_urls>"],
+      "run_at": "document_start"
+    }
+  ],
+  "externally_connectable": {
+    "matches": [
+      "http://localhost:4200/*",
+      "https://*.friendshouse.io.vn/*",
+      "https://friendshouse.io.vn/*"
+    ]
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "matches": ["<all_urls>"],
+      "resources": [
+        "logout-confirm.html",
+        "assets/logout-confirm-*.js",
+        "assets/logout-confirmation.js",
+        "content-script.js"
+      ],
+      "use_dynamic_url": false
+    }
+  ],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "logout_rules",
+        "enabled": false,
+        "path": "rules/logout-rules.json"
+      }
+    ]
+  }
+}

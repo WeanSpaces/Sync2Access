@@ -1,0 +1,18 @@
+export default {
+  common: { loading: '불러오는 중...', error: '오류', cancel: '취소', create: '생성', close: '닫기', save: '저장', delete: '삭제', confirm: '확인' },
+  tabs: { share: '공유', profiles: '프로필', settings: '설정' },
+  theme: { toggle: '테마 전환', light: '라이트', dark: '다크', system: '시스템' },
+  language: { switch: '언어 전환' },
+  popup: { title: 'Sync2Access', domain: '도메인', cookiesFound: '개의 쿠키 발견됨', noCookies: '이 도메인에 대한 쿠키가 없습니다', cannotAccess: '이 페이지에 접근할 수 없습니다', loadingCookies: '쿠키 불러오는 중...' },
+  shareCreation: { title: '공유가 생성되었습니다!', message: '{{domain}}에서 {{count}}개의 쿠키를 공유했습니다', createAnother: '다른 공유 만들기' },
+  passwordInput: { label: '비밀번호', placeholder: '공개 공유는 비워두세요', optional: '(선택사항)', publicHint: '비밀번호 없음 = 링크를 가진 누구나 접근 가능' },
+  expirationSelector: { label: '만료 기간', oneHour: '1시간', oneDay: '1일', oneWeek: '1주', oneMonth: '1개월', threeMonths: '3개월 (최대)' },
+  usageLimitSelector: { label: '사용 제한', unlimited: '무제한', times: '{{count}}번' },
+  redirectUrl: { label: '리디렉션 URL (가져오기 후)', placeholder: 'https://example.com/dashboard', hint: '쿠키를 가져온 후 3초 뒤에 사용자가 여기로 리디렉션됩니다' },
+  localStorage: { include: 'localStorage 포함', items: '항목', tooLarge: 'localStorage가 500KB 제한을 초과하여 포함되지 않습니다' },
+  shareButton: { label: '공유 만들기', creating: '생성 중...' },
+  copyUrlButton: { label: '공유 URL 복사', copied: '복사됨!' },
+  logoutPrevention: { title: '로그아웃 보호', enabled: '활성화됨', disabled: '비활성화됨', enableForDomain: '{{domain}}에 대해 활성화', disableForDomain: '{{domain}}에 대해 비활성화', protectDomain: '{{domain}} 보호', blocked: '로그아웃 차단됨', blockedMessage: '{{domain}}의 로그아웃 시도가 차단되었습니다', blockedCount: '{{count}}번의 로그아웃 차단됨', currentDomain: '현재 도메인', enableGlobal: '로그아웃 보호 활성화', description: '실수로 로그아웃하는 것을 방지합니다', switchedToDefault: '기본 프로필로 전환됨', restoredCookies: '{{domain}}의 원본 쿠키가 복원되었습니다' },
+  logoutConfirm: { title: '로그아웃하시겠습니까?', description: '다음 사이트의 로그아웃 페이지로 이동 중입니다:', yesLogout: '예, 로그아웃', noStay: '아니요, 로그인 유지', notLogoutPage: '이것은 로그아웃 페이지가 아닙니다', keyboardHint: '키를 누르세요:', toStay: '로그인 유지', protectedBy: 'Sync2Access로 보호됨' },
+  profiles: { title: '프로필', empty: '이 도메인에 대한 프로필이 없습니다', active: '활성', create: '프로필 만들기', createFromCurrent: '현재 쿠키 저장', switch: '전환', delete: '삭제', deleteConfirm: '"{{name}}" 프로필을 삭제하시겠습니까?', export: '내보내기', import: '가져오기', exportSuccess: '{{count}}개의 프로필을 내보냈습니다', importSuccess: '{{count}}개의 프로필을 가져왔습니다', importFailed: '가져오기 실패: {{error}}', cookieCount: '{{count}}개의 쿠키', createdAt: '{{date}}에 생성됨', updatedAt: '{{date}}에 업데이트됨', saveAsProfile: '프로필로 저장하시겠습니까?', profileName: '프로필 이름', namePlaceholder: '예: 회사 계정', switchSuccess: '"{{name}}"로 전환했습니다', switchFailed: '전환 실패: {{error}}', maxProfilesReached: '도메인당 최대 10개의 프로필', exportDescription: '{{domain}}의 쿠키 내보내기', exportJ2Team: 'J2TEAM 형식으로 내보내기', exportEncrypted: '암호화됨', exportEncryptedLabel: '비밀번호로 내보내기 (암호화)', exportBackup: '프로필 백업 내보내기', passwordPlaceholder: '비밀번호 (선택사항)', passwordRequired: '암호화된 내보내기에는 비밀번호가 필요합니다', noCookiesFound: '이 도메인에 대한 쿠키를 찾을 수 없습니다', exportFailed: '프로필 내보내기 실패' },
+};

@@ -1,0 +1,4 @@
+{
+  "appName": { "message": "Sync2Access", "description": "扩展名称" },
+  "appDescription": { "message": "共享Cookie、管理配置文件并防止意外注销。终极Cookie管理扩展。", "description": "扩展描述" }
+}

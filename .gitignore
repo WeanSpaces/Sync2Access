@@ -1,0 +1,39 @@
+# Local intelligence / assistant state
+.gitnexus/
+.claude/
+AGENTS.md
+CLAUDE.md
+
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build output and packaged artifacts
+dist/
+**/dist/
+*.crx
+*.pem
+*.key
+*.zip
+
+# Extracted / generated reference artifacts
+extension-source/
+extract_crx.py
+.gitnexusignore
+tools/
+
+# Environment and local config
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
+
+# Logs and caches
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.DS_Store
+Thumbs.db

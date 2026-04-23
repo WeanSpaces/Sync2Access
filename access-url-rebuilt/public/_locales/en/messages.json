@@ -1,0 +1,4 @@
+{
+  "appName": { "message": "Sync2Access", "description": "Extension name" },
+  "appDescription": { "message": "Share cookies, manage profiles, and prevent accidental logouts. The ultimate cookie management extension.", "description": "Extension description" }
+}

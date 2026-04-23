@@ -1,0 +1,4 @@
+{
+  "appName": { "message": "Sync2Access", "description": "확장 프로그램 이름" },
+  "appDescription": { "message": "쿠키 공유, 프로필 관리 및 실수로 인한 로그아웃을 방지합니다.", "description": "확장 프로그램 설명" }
+}

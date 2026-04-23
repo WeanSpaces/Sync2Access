@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+/*
+ * Theme tokens matching EXACTLY the original extension's popup-DI-wD7Yw.css
+ * Key: Original uses bare CSS vars (--background, --foreground)
+ * Tailwind v4 @theme maps --color-* to bare var names in utilities
+ */
+
+@theme {
+  --radius: 0.625rem;
+
+  --color-background: oklch(100% 0 0);
+  --color-foreground: oklch(14.5% 0 0);
+  --color-card: oklch(100% 0 0);
+  --color-card-foreground: oklch(14.5% 0 0);
+  --color-popover: oklch(100% 0 0);
+  --color-popover-foreground: oklch(14.5% 0 0);
+  --color-primary: oklch(20.5% 0 0);
+  --color-primary-foreground: oklch(98.5% 0 0);
+  --color-secondary: oklch(97% 0 0);
+  --color-secondary-foreground: oklch(20.5% 0 0);
+  --color-muted: oklch(97% 0 0);
+  --color-muted-foreground: oklch(55.6% 0 0);
+  --color-accent: oklch(97% 0 0);
+  --color-accent-foreground: oklch(20.5% 0 0);
+  --color-destructive: oklch(57.7% .245 27.325);
+  --color-success: oklch(52.7% .154 150.069);
+  --color-border: oklch(92.2% 0 0);
+  --color-input: oklch(92.2% 0 0);
+  --color-ring: oklch(70.8% 0 0);
+}
+
+/*
+ * Also define bare CSS vars for components that use var(--background) etc directly
+ * This ensures shadcn/ui component classes work correctly
+ */
+:root {
+  --radius: 0.625rem;
+  --background: oklch(100% 0 0);
+  --foreground: oklch(14.5% 0 0);
+  --card: oklch(100% 0 0);
+  --card-foreground: oklch(14.5% 0 0);
+  --popover: oklch(100% 0 0);
+  --popover-foreground: oklch(14.5% 0 0);
+  --primary: oklch(20.5% 0 0);
+  --primary-foreground: oklch(98.5% 0 0);
+  --secondary: oklch(97% 0 0);
+  --secondary-foreground: oklch(20.5% 0 0);
+  --muted: oklch(97% 0 0);
+  --muted-foreground: oklch(55.6% 0 0);
+  --accent: oklch(97% 0 0);
+  --accent-foreground: oklch(20.5% 0 0);
+  --destructive: oklch(57.7% .245 27.325);
+  --success: oklch(52.7% .154 150.069);
+  --border: oklch(92.2% 0 0);
+  --input: oklch(92.2% 0 0);
+  --ring: oklch(70.8% 0 0);
+}
+
+.dark {
+  --background: oklch(14.5% 0 0);
+  --foreground: oklch(98.5% 0 0);
+  --card: oklch(20.5% 0 0);
+  --card-foreground: oklch(98.5% 0 0);
+  --popover: oklch(20.5% 0 0);
+  --popover-foreground: oklch(98.5% 0 0);
+  --primary: oklch(92.2% 0 0);
+  --primary-foreground: oklch(20.5% 0 0);
+  --secondary: oklch(26.9% 0 0);
+  --secondary-foreground: oklch(98.5% 0 0);
+  --muted: oklch(26.9% 0 0);
+  --muted-foreground: oklch(70.8% 0 0);
+  --accent: oklch(26.9% 0 0);
+  --accent-foreground: oklch(98.5% 0 0);
+  --destructive: oklch(70.4% .191 22.216);
+  --success: oklch(64.8% .2 142);
+  --border: oklch(100% 0 0 / .1);
+  --input: oklch(100% 0 0 / .15);
+  --ring: oklch(55.6% 0 0);
+}
+
+/* Base styles matching original */
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+
+  html, body, #root {
+    margin: 0;
+    padding: 0;
+    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow: visible !important;
+  }
+}
